@@ -28,6 +28,9 @@ public class Player : MonoBehaviour {
     [SerializeField] private LayerMask wallLayer;
 
 
+    [SerializeField] private Transform hitBox;
+    [SerializeField] private LayerMask hitLayer;
+
     //initializing stuff
     void Start(){
         //nothing needed here yer
@@ -57,6 +60,9 @@ public class Player : MonoBehaviour {
         WallJump();
         if(!wallJumping)
             TurnAround();
+
+        if(Hitting())
+            Debug.Log("Hitting on something");
     }
 
     //used to handle all kind of physics
@@ -123,5 +129,9 @@ public class Player : MonoBehaviour {
     private void StopWallJump(){
         //here we cannot simply call this line in the wanted program as a command because we are gonna use 'invoke' which takes a METHOD as argument...
         wallJumping = false;
+    }
+
+    private bool Hitting(){
+        return Physics2D.OverlapCircle(hitBox.position, 0.2f,hitLayer);
     }
 }
