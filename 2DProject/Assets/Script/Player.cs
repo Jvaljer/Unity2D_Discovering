@@ -27,8 +27,12 @@ public class Player : MonoBehaviour {
     [SerializeField] private Transform wallCheck;
     [SerializeField] private LayerMask wallLayer;
 
-
-    [SerializeField] private Transform hitBox;
+    [SerializeField] private GameObject HitCheck;
+    //list of checkers for hitbox ?
+    [SerializeField] private Transform UpCheck;
+    [SerializeField] private Transform RightCheck;
+    [SerializeField] private Transform DownCheck;
+    [SerializeField] private Transform LeftCheck;
     [SerializeField] private LayerMask hitLayer;
 
     //initializing stuff
@@ -60,9 +64,9 @@ public class Player : MonoBehaviour {
         WallJump();
         if(!wallJumping)
             TurnAround();
-
+        
         if(Hitting())
-            Debug.Log("Hitting on something");
+            Debug.Log("hit some item");
     }
 
     //used to handle all kind of physics
@@ -79,11 +83,6 @@ public class Player : MonoBehaviour {
 
     private bool Walled(){
         //similar to Grounded() (same principe) but with walls (layered correctly)
-        if(Physics2D.OverlapCircle(wallCheck.position, 0.2f, wallLayer)){
-            Debug.Log("Walling");
-        } else {
-            Debug.Log("not Walling");
-        }
         return Physics2D.OverlapCircle(wallCheck.position, 0.2f, wallLayer);
     }
 
@@ -137,11 +136,9 @@ public class Player : MonoBehaviour {
     }
 
     private bool Hitting(){
-        if(Physics2D.OverlapCircle(hitBox.position, 0.2f,hitLayer)){
-            Debug.Log("hitting");
-        } else {
-            Debug.Log("not hitting");
-        }
-        return Physics2D.OverlapCircle(hitBox.position, 0.2f,hitLayer);
+        return (Physics2D.OverlapCircle(UpCheck.position, 0.2f, hitLayer) || 
+                Physics2D.OverlapCircle(RightCheck.position, 0.2f, hitLayer) ||
+                Physics2D.OverlapCircle(DownCheck.position, 0.2f, hitLayer) ||
+                Physics2D.OverlapCircle(LeftCheck.position, 0.2f, hitLayer) );
     }
 }
